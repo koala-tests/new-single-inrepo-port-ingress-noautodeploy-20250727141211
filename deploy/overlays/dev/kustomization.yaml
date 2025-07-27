@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+configMapGenerator:
+- behavior: merge
+  envs:
+  - environment-values.env
+  name: new-single-inrepo-port-ingress-noautodeploy-20250727141211-environment-values
+- behavior: merge
+  envs:
+  - container.env
+  name: new-single-inrepo-port-ingress-noautodeploy-20250727141211-container-vars
+kind: Kustomization
+labels:
+- pairs:
+    app.kubernetes.io/version: ""
+namespace: dev
+resources:
+- ../../base
+images:
+- name: ghcr.io/fake-org/fake-registry/new-single-inrepo-port-ingress-noautodeploy-20250727141211

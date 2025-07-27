@@ -1,0 +1,63 @@
+ServiceName = "new-single-inrepo-port-ingress-noautodeploy-20250727141211"
+Name = ""
+Description = "E2E integration test"
+Owners = ["eyal.dulb@gmail.com"]
+ServerFramework = "go-server"
+ServerMain = ""
+ArtifactRepository = "ghcr.io/fake-org/fake-registry"
+Port = 8080
+ContainerEnvFileName = "container.env"
+EnvironmentConfigFileName = "environment-values.env"
+LegacyIngressPatchEnabled = false
+EnvNamePrefixEnabled = false
+LegacyObjectSuffixEnabled = false
+
+[KoalaVersionInfo]
+  Version = ""
+  DeployWorkflowVersion = ""
+
+[Repo]
+  Name = "new-single-inrepo-port-ingress-noautodeploy-20250727141211"
+  GitUser = "koala-tests"
+  URL = ""
+  Path = ""
+  IsMonorepo = false
+  Token = ""
+
+[TemplateConfig]
+  Repo = ""
+  Path = ""
+
+[OpenAPIConfig]
+  SpecPath = ""
+  QueryPath = ""
+  CodegenTool = ""
+
+[[Environments]]
+  Name = "dev"
+  Namespace = "dev"
+  Cluster = "nonprod-cluster-us-east1"
+  Location = ""
+  CloudProvider = ""
+  IngressEnabled = false
+  IngressHost = ""
+
+[SSLConfig]
+  CertName = ""
+  Issuer = ""
+  IssuerContactEmail = ""
+
+[Metrics]
+  Collector = ""
+  [Metrics.Endpoint]
+    Path = ""
+    Port = 0
+    Scheme = ""
+    Interval = ""
+
+[Tracing]
+  Backend = ""
+  URL = ""
+
+[Profiling]
+  Tool = ""

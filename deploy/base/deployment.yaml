@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: new-single-inrepo-port-ingress-noautodeploy-20250727141211
+  labels:
+    app: new-single-inrepo-port-ingress-noautodeploy-20250727141211
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: new-single-inrepo-port-ingress-noautodeploy-20250727141211
+  template:
+    spec:
+      imagePullSecrets:
+      - name: ghcr-image-pull-secret
+      containers:
+      - name: new-single-inrepo-port-ingress-noautodeploy-20250727141211
+        image: ghcr.io/fake-org/fake-registry/new-single-inrepo-port-ingress-noautodeploy-20250727141211:latest
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 2048Mi
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: new-single-inrepo-port-ingress-noautodeploy-20250727141211-container-vars
+    metadata:
+      labels:
+        app: new-single-inrepo-port-ingress-noautodeploy-20250727141211
