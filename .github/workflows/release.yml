@@ -1,0 +1,59 @@
+# Create a new Release.
+
+# This workflow will update tag/version, build and push a Docker container to the container registry.
+# If configured to auto-deploy, it will also deploy the new version to the cluster.
+name: Release
+
+#  Prevent concurrent runs on the same branch/tag ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  image_tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.image_tag.outputs.tag }}
+      commit_hash: ${{ steps.image_tag.outputs.commit_hash }}
+    permissions:
+      contents: "write"
+      id-token: "write"
+    steps:
+      - uses: actions/checkout@v4
+        id: "checkout-workflows"
+        with:
+          path: "workflows"
+          sparse-checkout: .github
+        
+
+      - uses: actions/checkout@v4
+        id: "checkout-code"
+        with:
+          ref: ${{ env.GIT_CODE_REF }}
+          path: "code"
+
+      - name: Determine image tag
+        id: image_tag
+        uses: ./workflows/.github/actions/determine-image-tag
+        with:
+          tag_format: "date-branch"
+          include_counter: "true"
+
+
+  build:
+    uses: ./.github/workflows/build_image.yml
+    needs: image_tag
+    permissions:
+      contents: "write"
+      id-token: "write"
+      packages: "write"
+    with:
+      service_name: new-single-inrepo-port-ingress-noautodeploy-20250727141211
+      ref: ${{ needs.image_tag.outputs.commit_hash }}
+      tag: ${{ needs.image_tag.outputs.tag }}
+    secrets: inherit
+
